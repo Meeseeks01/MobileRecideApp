@@ -1,4 +1,4 @@
-package gr.athenstech.course.storage;
+package com.example.mobilerecipeapp.storage;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

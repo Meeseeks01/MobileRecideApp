@@ -1,4 +1,4 @@
-package gr.athenstech.course.model;
+package com.example.mobilerecipeapp.model;
 
 public class Meal {
     private final String id;
