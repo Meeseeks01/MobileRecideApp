@@ -2,10 +2,8 @@ package com.example.mobilerecipeapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,14 +11,21 @@ import com.example.mobilerecipeapp.R;
 import com.example.mobilerecipeapp.model.RecipeDetail;
 import com.example.mobilerecipeapp.network.ImageLoader;
 import com.example.mobilerecipeapp.network.MealApiClient;
+import com.example.mobilerecipeapp.storage.AppDatabase;
+import com.example.mobilerecipeapp.storage.FavouriteRecipeEntity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_MEAL_ID = "meal_id";
 
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private RecipeDetail currentRecipe;
 
     @Override
@@ -31,17 +36,13 @@ public class RecipeDetailActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.detailToolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
 
+        MaterialButton saveButton = findViewById(R.id.saveButton);
         MaterialButton shareButton = findViewById(R.id.shareButton);
+
+        saveButton.setOnClickListener(v -> saveFavourite());
         shareButton.setOnClickListener(v -> shareRecipe());
 
         String mealId = getIntent().getStringExtra(EXTRA_MEAL_ID);
-
-        if (mealId == null) {
-            Toast.makeText(this, "Recipe not found", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
         loadRecipe(mealId);
     }
 
@@ -54,10 +55,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError() {
-                Toast.makeText(
-                        RecipeDetailActivity.this,
-                        "Could not load recipe details",
-                        Toast.LENGTH_SHORT
+                Snackbar.make(
+                        findViewById(R.id.detailName),
+                        "Could not load recipe",
+                        Snackbar.LENGTH_SHORT
                 ).show();
             }
         });
@@ -76,6 +77,31 @@ public class RecipeDetailActivity extends AppCompatActivity {
         ImageLoader.load(this, recipe.imageUrl, imageView);
     }
 
+    private void saveFavourite() {
+        if (currentRecipe == null) return;
+
+        FavouriteRecipeEntity favourite = new FavouriteRecipeEntity(
+                currentRecipe.id,
+                currentRecipe.name,
+                currentRecipe.category,
+                currentRecipe.area,
+                currentRecipe.imageUrl,
+                currentRecipe.sourceUrl
+        );
+
+        executorService.execute(() -> {
+            AppDatabase.getInstance(this).favouriteDao().insert(favourite);
+
+            runOnUiThread(() ->
+                    Snackbar.make(
+                            findViewById(R.id.detailName),
+                            "Saved to favourites",
+                            Snackbar.LENGTH_SHORT
+                    ).show()
+            );
+        });
+    }
+
     private void shareRecipe() {
         if (currentRecipe == null) return;
 
@@ -87,5 +113,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
         );
 
         startActivity(Intent.createChooser(shareIntent, "Share recipe"));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executorService.shutdown();
     }
 }
