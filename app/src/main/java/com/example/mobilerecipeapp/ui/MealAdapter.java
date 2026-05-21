@@ -11,13 +11,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobilerecipeapp.R;
 import com.example.mobilerecipeapp.model.Meal;
+import com.example.mobilerecipeapp.network.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder> {
 
+    public interface OnMealClickListener {
+        void onMealClick(Meal meal);
+    }
+
     private final List<Meal> meals = new ArrayList<>();
+    private final OnMealClickListener listener;
+
+    public MealAdapter(OnMealClickListener listener) {
+        this.listener = listener;
+    }
 
     public void submitList(List<Meal> newMeals) {
         meals.clear();
@@ -36,7 +46,11 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealViewHolder
     @Override
     public void onBindViewHolder(@NonNull MealViewHolder holder, int position) {
         Meal meal = meals.get(position);
+
         holder.mealName.setText(meal.getName());
+        ImageLoader.load(holder.itemView.getContext(), meal.getImageUrl(), holder.mealImage);
+
+        holder.itemView.setOnClickListener(v -> listener.onMealClick(meal));
     }
 
     @Override

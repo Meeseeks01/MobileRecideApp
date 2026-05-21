@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "favourites")
+@Entity(tableName = "favourite_recipes")
 public class FavouriteRecipeEntity {
 
     @PrimaryKey
