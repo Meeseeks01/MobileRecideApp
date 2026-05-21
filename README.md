@@ -70,36 +70,36 @@ The app detects internet connectivity and displays:
 
 ## 🏠 Home Screen
 
-![Home Screen](<img width="381" height="828" alt="Screenshot 2026-05-21 185758" src="https://github.com/user-attachments/assets/39413022-598e-47c5-801a-84e84de2e831" />
-)
+<img width="381" height="828" alt="Screenshot 2026-05-21 185758" src="https://github.com/user-attachments/assets/39413022-598e-47c5-801a-84e84de2e831" />
+
 
 ---
 
 ## 🍗 Chicken Category Filter
 
-![Chicken Filter](<img width="382" height="827" alt="Screenshot 2026-05-21 185807" src="https://github.com/user-attachments/assets/2b9e93ad-e2a9-4261-afaf-dfe6fa1befcb" />
-)
+<img width="382" height="827" alt="Screenshot 2026-05-21 185807" src="https://github.com/user-attachments/assets/2b9e93ad-e2a9-4261-afaf-dfe6fa1befcb" />
+
 
 ---
 
 ## 📖 Recipe Detail Screen
 
-![Recipe Detail](<img width="377" height="827" alt="Screenshot 2026-05-21 185817" src="https://github.com/user-attachments/assets/3aee93c9-79b9-4a32-815a-556f23bdcdb9" />
-)
+<img width="377" height="827" alt="Screenshot 2026-05-21 185817" src="https://github.com/user-attachments/assets/3aee93c9-79b9-4a32-815a-556f23bdcdb9" />
+
 
 ---
 
 ## ⭐ Favourites Screen
 
-![Favourites](<img width="382" height="818" alt="Screenshot 2026-05-21 185845" src="https://github.com/user-attachments/assets/0283efdf-060d-4691-9e54-f76592bdea90" />
-)
+<img width="382" height="818" alt="Screenshot 2026-05-21 185845" src="https://github.com/user-attachments/assets/0283efdf-060d-4691-9e54-f76592bdea90" />
+
 
 ---
 
 ## 🗑️ Empty Favourites State
 
-![Empty Favourites](<img width="380" height="815" alt="Screenshot 2026-05-21 185855" src="https://github.com/user-attachments/assets/9c751d51-28cf-489e-993b-0adda816f201" />
-)
+<img width="380" height="815" alt="Screenshot 2026-05-21 185855" src="https://github.com/user-attachments/assets/9c751d51-28cf-489e-993b-0adda816f201" />
+
 
 ---
 
@@ -122,7 +122,7 @@ app/
 1. Clone the repository
 
 ```bash
-git clone [<repository-url>](https://github.com/Meeseeks01/MobileRecideApp/tree/dev)
+git clone https://github.com/Meeseeks01/MobileRecipeApp.git
 ```
 
 2. Open the project in Android Studio
