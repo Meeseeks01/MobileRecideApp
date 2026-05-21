@@ -7,6 +7,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mobilerecipeapp.model.Category;
 import com.example.mobilerecipeapp.model.Meal;
+import com.example.mobilerecipeapp.model.RecipeDetail;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -110,4 +111,59 @@ public class MealApiClient {
             callback.onError();
         }
     }
+
+    public interface DetailCallback {
+        void onSuccess(RecipeDetail recipe);
+        void onError();
+    }
+
+    public static void getMealDetail(Context context, String mealId, DetailCallback callback) {
+        String url = BASE_URL + "lookup.php?i=" + mealId;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        JSONArray meals = response.getJSONArray("meals");
+                        JSONObject item = meals.getJSONObject(0);
+
+                        RecipeDetail recipe = new RecipeDetail();
+                        recipe.id = item.getString("idMeal");
+                        recipe.name = item.getString("strMeal");
+                        recipe.category = item.optString("strCategory", "");
+                        recipe.area = item.optString("strArea", "");
+                        recipe.instructions = item.optString("strInstructions", "");
+                        recipe.imageUrl = item.optString("strMealThumb", "");
+                        recipe.sourceUrl = item.optString("strSource", "");
+
+                        StringBuilder ingredients = new StringBuilder();
+                        for (int i = 1; i <= 20; i++) {
+                            String ingredient = item.optString("strIngredient" + i, "");
+                            String measure = item.optString("strMeasure" + i, "");
+
+                            if (!ingredient.trim().isEmpty()) {
+                                ingredients.append("• ")
+                                        .append(measure)
+                                        .append(" ")
+                                        .append(ingredient)
+                                        .append("\n");
+                            }
+                        }
+
+                        recipe.ingredients = ingredients.toString();
+
+                        callback.onSuccess(recipe);
+
+                    } catch (Exception e) {
+                        callback.onError();
+                    }
+                },
+                error -> callback.onError()
+        );
+
+        Volley.newRequestQueue(context).add(request);
+    }
 }
+
