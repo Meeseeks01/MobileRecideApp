@@ -9,4 +9,9 @@
         <item name="colorError">@color/md_theme_error</item>
     </style>
 
+    <style name="ToolbarTitleStyle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
