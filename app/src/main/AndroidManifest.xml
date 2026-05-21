@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileRecipeApp">
+        <activity android:name=".ui.RecipeDetailActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
